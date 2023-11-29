@@ -15,7 +15,7 @@ contract TestWarmColdAccount is IAccount {
     }
 
     function validateUserOp(UserOperation calldata userOp, bytes32, uint256 missingAccountFunds)
-    external override returns (uint256 validationData) {
+    external override returns (uint256 validationData, bytes memory context) {
         ep.depositTo{value : missingAccountFunds}(address(this));
         if (userOp.nonce == 1) {
             // can only succeed if storage is already warm
@@ -25,7 +25,7 @@ contract TestWarmColdAccount is IAccount {
             // can only succeed if storage is already warm
             this.touchPaymaster{gas: 1000}(paymaster);
         }
-        return 0;
+        return (0,"");
     }
 
     function touchStorage() public view returns (uint256) {

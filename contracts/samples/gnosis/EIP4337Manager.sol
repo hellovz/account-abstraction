@@ -43,7 +43,7 @@ contract EIP4337Manager is IAccount, GnosisSafeStorage, Executor {
      * delegate-called (using execFromModule) through the fallback, so "real" msg.sender is attached as last 20 bytes
      */
     function validateUserOp(UserOperation calldata userOp, bytes32 userOpHash, uint256 missingAccountFunds)
-    external override returns (uint256 validationData) {
+    external override returns (uint256 validationData, bytes memory context) {
         address msgSender = address(bytes20(msg.data[msg.data.length - 20 :]));
         require(msgSender == entryPoint, "account: not from entrypoint");
 
@@ -64,6 +64,7 @@ contract EIP4337Manager is IAccount, GnosisSafeStorage, Executor {
             (success);
             //ignore failure (its EntryPoint's job to verify, not account.)
         }
+        context = "";
     }
 
     /**

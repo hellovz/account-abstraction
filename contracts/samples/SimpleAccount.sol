@@ -64,17 +64,17 @@ contract SimpleAccount is BaseAccount, TokenCallbackHandler, UUPSUpgradeable, In
      * @dev to reduce gas consumption for trivial case (no value), use a zero-length array to mean zero value
      */
     function executeBatch(address[] calldata dest, uint256[] calldata value, bytes[] calldata func) external {
-        _requireFromEntryPointOrOwner();
-        require(dest.length == func.length && (value.length == 0 || value.length == func.length), "wrong array lengths");
-        if (value.length == 0) {
-            for (uint256 i = 0; i < dest.length; i++) {
-                _call(dest[i], 0, func[i]);
-            }
-        } else {
-            for (uint256 i = 0; i < dest.length; i++) {
-                _call(dest[i], value[i], func[i]);
-            }
-        }
+//        _requireFromEntryPointOrOwner();
+//        require(dest.length == func.length && (value.length == 0 || value.length == func.length), "wrong array lengths");
+//        if (value.length == 0) {
+//            for (uint256 i = 0; i < dest.length; i++) {
+//                _call(dest[i], 0, func[i]);
+//            }
+//        } else {
+//            for (uint256 i = 0; i < dest.length; i++) {
+//                _call(dest[i], value[i], func[i]);
+//            }
+//        }
     }
 
     /**
@@ -134,12 +134,12 @@ contract SimpleAccount is BaseAccount, TokenCallbackHandler, UUPSUpgradeable, In
      * @param amount to withdraw
      */
     function withdrawDepositTo(address payable withdrawAddress, uint256 amount) public onlyOwner {
-        entryPoint().withdrawTo(withdrawAddress, amount);
+//        entryPoint().withdrawTo(withdrawAddress, amount);
     }
 
     function _authorizeUpgrade(address newImplementation) internal view override {
-        (newImplementation);
-        _onlyOwner();
+//        (newImplementation);
+//        _onlyOwner();
     }
 }
 

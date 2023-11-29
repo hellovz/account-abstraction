@@ -10,9 +10,9 @@ contract TestRevertAccount is IAccount {
     }
 
     function validateUserOp(UserOperation calldata, bytes32, uint256 missingAccountFunds)
-    external override returns (uint256 validationData) {
+    external override returns (uint256 validationData, bytes memory context) {
         ep.depositTo{value : missingAccountFunds}(address(this));
-        return 0;
+        return (0, "");
     }
 
     function revertLong(uint256 length) public pure{

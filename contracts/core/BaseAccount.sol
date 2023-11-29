@@ -51,8 +51,9 @@ abstract contract BaseAccount is IAccount {
         UserOperation calldata userOp,
         bytes32 userOpHash,
         uint256 missingAccountFunds
-    ) external virtual override returns (uint256 validationData) {
+    ) external virtual override returns (uint256 validationData, bytes memory context) {
         _requireFromEntryPoint();
+        context = "";
         validationData = _validateSignature(userOp, userOpHash);
         _validateNonce(userOp.nonce);
         _payPrefund(missingAccountFunds);

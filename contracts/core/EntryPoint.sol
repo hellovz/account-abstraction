@@ -458,7 +458,7 @@ contract EntryPoint is IEntryPoint, StakeManager, NonceManager, ReentrancyGuard,
                 IAccount(sender).validateUserOp{
                     gas: mUserOp.verificationGasLimit
                 }(op, opInfo.userOpHash, missingAccountFunds)
-            returns (uint256 _validationData) {
+            returns (uint256 _validationData, bytes memory context) {
                 validationData = _validationData;
             } catch Error(string memory revertReason) {
                 revert FailedOp(

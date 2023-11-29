@@ -9,7 +9,7 @@ contract MaliciousAccount is IAccount {
         ep = _ep;
     }
     function validateUserOp(UserOperation calldata userOp, bytes32, uint256 missingAccountFunds)
-    external returns (uint256 validationData) {
+    external returns (uint256 validationData, bytes memory context) {
         ep.depositTo{value : missingAccountFunds}(address(this));
         // Now calculate basefee per EntryPoint.getUserOpGasPrice() and compare it to the basefe we pass off-chain in the signature
         uint256 externalBaseFee = abi.decode(userOp.signature, (uint256));
@@ -17,6 +17,6 @@ contract MaliciousAccount is IAccount {
         uint256 gasPrice = missingAccountFunds / requiredGas;
         uint256 basefee = gasPrice - userOp.maxPriorityFeePerGas;
         require (basefee == externalBaseFee, "Revert after first validation");
-        return 0;
+        return (0,"");
     }
 }
